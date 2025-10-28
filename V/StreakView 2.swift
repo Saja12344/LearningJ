@@ -16,6 +16,7 @@ struct StreakView: View {
             Text("Current Streak")
                 .font(.headline)
 
+            
             Text("\(viewModel.streakDays) 🔥")
                 .font(.system(size: 48, weight: .bold, design: .rounded))
 

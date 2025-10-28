@@ -10,6 +10,7 @@
 import SwiftUI
 import Combine
 
+
 struct NewGoalView: View {
     @ObservedObject var manager: StreakViewModel
     @State var learningTopic: String

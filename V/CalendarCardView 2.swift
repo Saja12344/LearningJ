@@ -78,6 +78,7 @@ struct CalendarCardView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
+                
 
                 // MARK: Weekdays Row (SUN–SAT + دوائر)
                 HStack(spacing: 12) {

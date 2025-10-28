@@ -15,6 +15,7 @@ struct WeakDaysHelper {
         return f
     }()
 
+    
     static let dowFmt: DateFormatter = {
         let f = DateFormatter()
         f.dateFormat = "EEE"

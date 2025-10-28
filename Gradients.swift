@@ -14,6 +14,7 @@ enum Gradients {
         Color(red: 0.7, green: 0.3, blue: 0.1)
     ], startPoint: .topLeading, endPoint: .bottomTrailing)
 
+    
     static let learned = LinearGradient(colors: [
         Color.orange.opacity(0.08),
         Color(red: 260/255, green: 64/255, blue: 3/255, opacity: 0.08)

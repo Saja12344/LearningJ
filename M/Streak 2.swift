@@ -13,5 +13,6 @@ struct Streak: Codable, Equatable {
     var freezedDates: Set<Date> = []
     var streakDays: Int = 0
     var freezesUsed: Int = 0
+    
     var lastLoggedDate: Date? = nil
 }

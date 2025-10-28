@@ -15,6 +15,7 @@ final class StreakViewModel: ObservableObject {
     @Published var learningTopic: String
     @Published var duration: Duration
 
+    
     private let cal = Calendar.current
     private var cancellables = Set<AnyCancellable>()
     private var timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()

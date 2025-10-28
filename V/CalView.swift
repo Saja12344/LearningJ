@@ -21,6 +21,7 @@ fileprivate enum CalUX {
     static let circle: CGFloat      = 50   // 50×50
     static let numeralFont: CGFloat = 19   // حجم رقم اليوم داخل الدائرة
 
+    
     static let monthSpacing: CGFloat = 18
     static let weekVSpacing: CGFloat = 8
 }

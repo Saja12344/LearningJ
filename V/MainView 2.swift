@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct MainView: View {
     @State private var learnedState: LearnedState = .notLearned
     @State private var isFreezeButtonPressed = false
