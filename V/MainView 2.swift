@@ -91,7 +91,12 @@ struct MainView: View {
     // ✅ الأسفل للحالات المختلفة
     private var expiredBottom: some View {
         VStack(spacing: 20) {
-            Text("Your streak has ended!")
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(.orange)
+                .font(.largeTitle.bold())
+                .padding(20)
+
+                  Text("Your streak has ended!")
                 .foregroundColor(.white)
                 .font(.title.bold())
             Text("Don't worry, start a new goal to keep learning.")
@@ -170,20 +175,23 @@ struct MainView: View {
     private var newGoalSection: some View {
         VStack(spacing: 10) {
             Button("Set new learning goal") { showEdit = true }
-                .frame(width: 182, height: 48)
-
+                .frame(width: 200, height: 48)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundColor(.white)
-                .frame(width: 182, height: 48)
                 .glassEffect(.clear.tint(Color(hex: "#FF9230").opacity(0.9)))
                 .clipShape(Capsule())
                 .padding(.top, 20)
-            Text(manager.learningTopic)
-                .foregroundColor(.white.opacity(0.7))
-            Text(manager.stringFromDuration(manager.duration))
-                .foregroundColor(.white.opacity(0.5))
-        }
-        .padding(.bottom, 20)
+            Button(action: {
+                   // إعادة تعيين المدة بدون تغيير الموضوع
+                   manager.resetStreak()
+               }) {
+                   Text("Start learning again")
+                       .padding(.top, 10)
+                       .foregroundColor(.orange)
+                       .frame(maxWidth: .infinity)
+                       .multilineTextAlignment(.center)
+               }        }
+        .padding(.top, 25)
     }
 
     // MARK: - Actions
@@ -263,6 +271,7 @@ extension Calendar {
     }
 }
 
+
 #Preview {
     // ستريك مكتمل
     let completedManager = StreakViewModel(
@@ -272,12 +281,15 @@ extension Calendar {
     )
     
     // ستريك منتهي
+    let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: Date())!
+    let thirtyThreeHoursAgo = Calendar.current.date(byAdding: .hour, value: -33, to: Date())!
     let expiredManager = StreakViewModel(
-        mockLearned: [Calendar.current.date(byAdding: .day, value: -2, to: Date())!],
+        mockLearned: [twoDaysAgo],
         learningTopic: "Math",
-        duration: .week
+        duration: .week,
+        lastLogged: thirtyThreeHoursAgo
     )
     
     // عرض واحد للـ Preview (يمكن التبديل بينهما)
-    MainView(manager: completedManager)
+    MainView()
 }

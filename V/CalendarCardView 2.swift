@@ -27,6 +27,12 @@ struct CalendarCardView: View {
               let f = DateFormatter(); f.dateFormat = "LLLL yyyy"
               return f.string(from: currentDate)
           }
+    private let weekDayFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "E" // يعطي Mon, Tue, Wed...
+        return f
+    }()
+
 
 
   
@@ -41,8 +47,8 @@ struct CalendarCardView: View {
             RoundedRectangle(cornerRadius: 18)
                 .fill(.ultraThinMaterial.opacity(0.2))
                 .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.white.opacity(0.12)))
+                .padding()
                 .shadow(color: .black.opacity(0.35), radius: 18, x: 0, y: 18)
-
             VStack(spacing: 16) {
                 // MARK: Header (الشهر والسنة + الأسهم)
                 HStack(spacing: 8) {
@@ -53,6 +59,7 @@ struct CalendarCardView: View {
                     } label: {
                         HStack(spacing: 6) {
                             Text(monthYearText)
+//                                .padding(.horizontal)
                                 .foregroundColor(.white)
                                 .font(.system(size: 17, weight: .semibold))
                             Image(systemName: showMonthPicker ? "chevron.up" : "chevron.down")
@@ -68,7 +75,7 @@ struct CalendarCardView: View {
                             .foregroundColor(.orange)
                             .font(.system(size: 14, weight: .bold))
                     }
-                    .padding(.trailing, 20)
+                    .padding(.trailing, 10)
 
                     Button { moveWeek(+1) } label: {
                         Image(systemName: "chevron.right")
@@ -76,24 +83,29 @@ struct CalendarCardView: View {
                             .font(.system(size: 14, weight: .bold))
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
+                .padding(.horizontal, 30)
+                .padding(.top, 36)
                 
 
                 // MARK: Weekdays Row (SUN–SAT + دوائر)
-                HStack(spacing: 12) {
+                HStack(spacing: 10) {
                     ForEach(days, id: \.self) { date in
                         let day = cal.startOfDay(for: date)
                         let isLearned = manager.learnedDates.contains(day)
                         let isFreezed = manager.freezedDates.contains(day)
                         let isToday = cal.isDateInToday(date)
                         
+//                        VStack(spacing: 6) {
+//                            Text(WeakDaysHelper.dayFmt.string(from: date).uppercased())
+//                                .font(.system(size: 12, weight: .semibold))
+//                                .foregroundColor(.gray)
+
                         VStack(spacing: 6) {
-                            Text(WeakDaysHelper.dayFmt.string(from: date).uppercased())
+                            Text(weekDayFormatter.string(from: date).uppercased())
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundColor(.gray)
+                        
 
-                            
 
                             Circle()
                                 .fill(isFreezed ? Color.cyan.opacity(0.4) :
@@ -114,7 +126,7 @@ struct CalendarCardView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 26)
 
                 Divider()
                     .background(Color.white.opacity(0.18))
@@ -135,6 +147,7 @@ struct CalendarCardView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Learning \(learningTopic)")
                             .foregroundColor(.white)
+//                            .padding(.horizontal)
                             .font(.system(size: 16, weight: .semibold))
 
                         HStack(spacing: 12) {
@@ -149,7 +162,7 @@ struct CalendarCardView: View {
                                      text: manager.freezesUsed == 1 ? "Day Freezed" : "Days Freezed")
                         }
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 26)
                     .transition(.opacity.combined(with: .slide))
                     .animation(.easeInOut(duration: 0.3), value: showMonthPicker)
                 }
@@ -158,7 +171,7 @@ struct CalendarCardView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 285)
+        .frame(height: 300)
         .padding(.horizontal, 16)
     }
        private func moveWeek(_ offset: Int) {

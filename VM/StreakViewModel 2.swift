@@ -32,12 +32,22 @@ final class StreakViewModel: ObservableObject {
         observeTimer()
     }
 
-    init(mockLearned: Set<Date> = [], mockFreezed: Set<Date> = [], learningTopic: String = "", duration: Duration = .week) {
-        self.streak = Streak(learnedDates: mockLearned, freezedDates: mockFreezed)
+//    init(mockLearned: Set<Date> = [], mockFreezed: Set<Date> = [], learningTopic: String = "", duration: Duration = .week) {
+//        self.streak = Streak(learnedDates: mockLearned, freezedDates: mockFreezed)
+//        self.learningTopic = learningTopic
+//        self.duration = duration
+//        self.streak.lastLoggedDate = lastLogged
+//        recomputeStreak()
+//    }
+    init(mockLearned: Set<Date> = [], mockFreezed: Set<Date> = [], learningTopic: String = "", duration: Duration = .week, lastLogged: Date? = nil) {
+        var mockStreak = Streak(learnedDates: mockLearned, freezedDates: mockFreezed)
+        mockStreak.lastLoggedDate = lastLogged
+        self.streak = mockStreak
         self.learningTopic = learningTopic
         self.duration = duration
         recomputeStreak()
     }
+
 
     // MARK: - Computed Properties
     var streakDays: Int { streak.streakDays }
@@ -63,6 +73,11 @@ final class StreakViewModel: ObservableObject {
         guard let last = lastLoggedDate else { return false }
         return Date().timeIntervalSince(last) > 32 * 3600
     }
+    func setLastLoggedDate(_ date: Date) {
+        streak.lastLoggedDate = date
+        recomputeStreak()
+    }
+
 
     var isStreakCompleted: Bool {
         switch duration {
